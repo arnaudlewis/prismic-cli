@@ -14,6 +14,7 @@ var configuration = require('../lib/config');
 var api = require('../lib/api');
 var ui = require('../lib/ui');
 var templates = require('../lib/templates');
+var Helpers = require('../lib/helpers');
 
 var DEFAULT_BASE = 'https://prismic.io';
 var DEFAULT_BASE_WITH_DOMAIN = function(domain) {
@@ -137,14 +138,10 @@ function create(config, domain, args) {
 }
 
 function signup(config, args) {
-  ui.signup(config.base || DEFAULT_BASE, args['--email'], args['--password']).then(function(success) {
-    if (success) {
-      console.log('Successfully created your account! You can now create repositories.');
-    } else {
-      console.log('Error');
-    }
+  ui.signup(config.base || DEFAULT_BASE, args['--email'], args['--password']).then(function() {
+    console.log('Successfully created your account! You can now create repositories.');
   }).catch(function(err) {
-    console.log('Error: ' , err);
+    Helpers.UI.displayErrors(err)
   });
 }
 
